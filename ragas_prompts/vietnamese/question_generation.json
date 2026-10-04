@@ -1,0 +1,34 @@
+{
+    "name": "question_generation",
+    "instruction": "Generate a question for the given answer and Identify if answer is noncommittal. Give noncommittal as 1 if the answer is noncommittal and 0 if the answer is committal. A noncommittal answer is one that is evasive, vague, or ambiguous. For example, \"I don't know\" or \"I'm not sure\" are noncommittal answers",
+    "output_format_instruction": "The output should be a well-formatted JSON instance that conforms to the JSON schema below.\n\nAs an example, for the schema {\"properties\": {\"foo\": {\"title\": \"Foo\", \"description\": \"a list of strings\", \"type\": \"array\", \"items\": {\"type\": \"string\"}}}, \"required\": [\"foo\"]}\nthe object {\"foo\": [\"bar\", \"baz\"]} is a well-formatted instance of the schema. The object {\"properties\": {\"foo\": [\"bar\", \"baz\"]}} is not well-formatted.\n\nHere is the output JSON schema:\n```\n{\"type\": \"object\", \"properties\": {\"question\": {\"title\": \"Question\", \"type\": \"string\"}, \"noncommittal\": {\"title\": \"Noncommittal\", \"type\": \"integer\"}}, \"required\": [\"question\", \"noncommittal\"]}\n```\n\nDo not return any preamble or explanations, return only a pure JSON string surrounded by triple backticks (```).",
+    "examples": [
+        {
+            "answer": "\"Albert Einstein sinh ra \u1edf \u0110\u1ee9c.\"",
+            "context": "\"Albert Einstein l\u00e0 m\u1ed9t nh\u00e0 v\u1eadt l\u00fd l\u00fd thuy\u1ebft sinh ra \u1edf \u0110\u1ee9c, ng\u01b0\u1eddi \u0111\u01b0\u1ee3c coi l\u00e0 m\u1ed9t trong nh\u1eefng nh\u00e0 khoa h\u1ecdc v\u0129 \u0111\u1ea1i v\u00e0 c\u00f3 \u1ea3nh h\u01b0\u1edfng nh\u1ea5t m\u1ecdi th\u1eddi \u0111\u1ea1i.\"",
+            "output": "{\"question\": \"Albert Einstein sinh ra \u1edf \u0111\u00e2u?\", \"noncommittal\": 0}"
+        },
+        {
+            "answer": "\"Ch\u00fang c\u00f3 th\u1ec3 thay \u0111\u1ed5i m\u00e0u da d\u1ef1a tr\u00ean nhi\u1ec7t \u0111\u1ed9 c\u1ee7a m\u00f4i tr\u01b0\u1eddng xung quanh.\"",
+            "context": "\"M\u1ed9t nghi\u00ean c\u1ee9u khoa h\u1ecdc g\u1ea7n \u0111\u00e2y \u0111\u00e3 ph\u00e1t hi\u1ec7n ra m\u1ed9t lo\u00e0i \u1ebfch m\u1edbi trong r\u1eebng m\u01b0a Amazon c\u00f3 kh\u1ea3 n\u0103ng \u0111\u1ed9c \u0111\u00e1o l\u00e0 thay \u0111\u1ed5i m\u00e0u da d\u1ef1a tr\u00ean nhi\u1ec7t \u0111\u1ed9 c\u1ee7a m\u00f4i tr\u01b0\u1eddng xung quanh.\"",
+            "output": "{\"question\": \"Lo\u00e0i \u1ebfch m\u1edbi \u0111\u01b0\u1ee3c ph\u00e1t hi\u1ec7n c\u00f3 kh\u1ea3 n\u0103ng \u0111\u1ed9c \u0111\u00e1o g\u00ec?\", \"noncommittal\": 0}"
+        },
+        {
+            "answer": "\"Everest\" in Vietnamese is \"Everest\". However, if you are looking for a translation of the phrase \"Mount Everest,\" it would be \"N\u00fai Everest.\"",
+            "context": "\"Ng\u1ecdn n\u00fai cao nh\u1ea5t tr\u00ean Tr\u00e1i \u0110\u1ea5t, \u0111o t\u1eeb m\u1ef1c n\u01b0\u1edbc bi\u1ec3n, l\u00e0 m\u1ed9t \u0111\u1ec9nh n\u00fai n\u1ed5i ti\u1ebfng n\u1eb1m trong d\u00e3y Himalaya.\"",
+            "output": "{\"question\": \"Ng\u1ecdn n\u00fai cao nh\u1ea5t tr\u00ean Tr\u00e1i \u0110\u1ea5t l\u00e0 g\u00ec?\", \"noncommittal\": 0}"
+        },
+        {
+            "answer": "\"T\u00f4i kh\u00f4ng bi\u1ebft v\u1ec1 t\u00ednh n\u0103ng \u0111\u1ed9t ph\u00e1 c\u1ee7a chi\u1ebfc smartphone \u0111\u01b0\u1ee3c ph\u00e1t minh v\u00e0o n\u0103m 2023 v\u00ec t\u00f4i kh\u00f4ng bi\u1ebft th\u00f4ng tin n\u00e0o sau n\u0103m 2022.\"",
+            "context": "\"V\u00e0o n\u0103m 2023, m\u1ed9t ph\u00e1t minh \u0111\u1ed9t ph\u00e1 \u0111\u00e3 \u0111\u01b0\u1ee3c c\u00f4ng b\u1ed1: m\u1ed9t chi\u1ebfc smartphone c\u00f3 th\u1eddi gian s\u1eed d\u1ee5ng pin l\u00ean \u0111\u1ebfn m\u1ed9t th\u00e1ng, c\u00e1ch m\u1ea1ng h\u00f3a c\u00e1ch m\u1ecdi ng\u01b0\u1eddi s\u1eed d\u1ee5ng c\u00f4ng ngh\u1ec7 di \u0111\u1ed9ng.\"",
+            "output": "{\"question\":\"T\u00ednh n\u0103ng \u0111\u1ed9t ph\u00e1 n\u00e0o c\u1ee7a smartphone \u0111\u01b0\u1ee3c ph\u00e1t minh v\u00e0o n\u0103m 2023?\",\"noncommittal\":1}"
+        }
+    ],
+    "input_keys": [
+        "answer",
+        "context"
+    ],
+    "output_key": "output",
+    "output_type": "json",
+    "language": "vietnamese"
+}
